@@ -1,0 +1,127 @@
+// const http = require('http'); 
+// const port = 4000;
+// const os = require('os');
+
+// const ele = require('./notes')
+
+// // console.log(os.totalmem())
+// // console.log(process.env)
+// console.log(ele.txt)
+
+// console.log(__dirname,'dirname');
+// console.log(__filename,'filename')
+
+// const server = http.createServer((req,res)=> {
+//     res.writeHead(200,{'Content-Type':'text/html'});
+//     res.end('<h1>Witaj serwerze</h1>');
+// })
+
+// server.listen(port,'localhost',()=>{
+//     console.log('serwer dziala')
+// })
+
+// const fs = require('fs');
+
+// fs.readFile('./notatki.txt','utf8',(err,file)=> {
+//     console.log(err,file);
+//     console.log('xxx')
+// })
+
+// const users = require('./users');
+// const my = require('./mymodule');
+
+// my.readModuleName()
+
+// users.findIdUsers(2)
+
+const fs = require('fs');
+
+
+//ACCESS
+// fs.access('./name.txt',(err,file)=> {
+//     console.log(err ? 'Plik nie istnieje' : 'istnieje')
+// })
+
+// fs.access('./zablokowany.txt', fs.constants.W_OK, (err,file)=> {
+//     console.log(err ? 'Plik nie MOZNA ZAPISAC' : 'MOZNA ZAPISAC')
+// })
+
+//REANAME - zmienia nazwy plikow
+
+// fs.rename('imiton.txt','name.txt',(err)=>{
+//     console.log(err)
+// })
+
+//READDIR
+
+// console.log(fs.readdirSync('./'))
+
+// const readFile = (file) => {
+//     fs.readFile(file, 'utf8' , (err, data) => {
+//         if (err) {
+//           console.error(err)
+//           return
+//         }
+//         console.log(data)
+//       })
+    
+// }
+
+
+// fs.readdir('./',(err,files)=>{
+//     console.log(files)
+
+//     files.forEach(el => readFile(el))
+// })
+
+//readfile - odczytuje
+
+// fs.readFile('./name.txt','utf8',(err,data)=> {
+//     console.log(data)
+// })
+
+//writefile - zapisac i nadpisuje 
+
+// fs.writeFile('./notatki.txt','NOWY WRZUCONY TEXT',(err)=> {
+//     if(err) console.log('error')
+// })
+
+// fs.readFile('name.txt','utf8',(err,data)=> {
+   
+//     if(data.length) {
+//         fs.writeFile('lista.txt',`${data},Paulina Wrona`,(err)=> {
+//             if(err) console.log(err)
+//         })
+//     }
+// })
+
+
+///APPENDFILE
+// const names = 'Tomasz'
+// fs.appendFile('lista.txt',names,(err)=>{
+//     console.log(err)
+// })
+
+
+// path- konstruowanie sciezek
+const path = require('path')
+
+// //JOIN
+// const pathToFile = path.join(__dirname,'index.js');
+// console.log(pathToFile)
+
+//PARSE
+
+// const parse = path.parse(__filename);
+// console.log(parse)
+
+// console.log(path.extname('test.js')) -- zwraca rozserzenie
+
+// OS - SYSTEM 
+
+const os = require('os');
+
+//ile pracuje komputer
+const uptime = os.uptime() / 60 / 60;;
+
+console.log(uptime)
