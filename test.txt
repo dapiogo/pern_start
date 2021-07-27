@@ -125,3 +125,7 @@ const os = require('os');
 const uptime = os.uptime() / 60 / 60;;
 
 console.log(uptime)
+
+http-80/
+https-443/
+-- domyslne porty
