@@ -1,0 +1,224 @@
+// const express = require('express');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const { publicDecrypt } = require('crypto');
+
+const app = express();
+
+const port = 3000
+
+app.listen(port,()=>{
+    console.log('serwer is listenieng')
+})
+
+
+// -- REQ 
+// ----------------------------------
+
+
+// app.get('/',(req,res)=> {
+//     // console.log('welcome users')
+//     // // console.log(req.ip)
+//     // console.log(req.method);
+//     // console.log(req.path);
+//     // console.log(req.originalUrl)
+//     // console.log(req.protocol);
+//     // console.log(req.secure);
+//     // console.log(req.query)//pobiera parametry z adresu url
+//     //odczytanie poprzedniej strony jaka byla
+//     // console.log(req.get('Referer'))
+
+// })
+
+// //opcjonalne surname
+// app.get('/:name/:surname?', (req)=> {
+//     console.log('hii',req.params);
+// })
+
+
+// -- RES 
+// ------------------------------
+
+// app.get('/',(req,res)=>{
+//     res.write('test');
+//     //konczenie polaczenia z klientem
+//     res.end()
+// })
+
+//zamiast res.write i res.end wystarczy res.send, res.send ma wiekszosc headersow dodane niz ta reszta
+
+// app.get('/',(req,res)=> {
+//     res.send('Witaj strono testowa ddd dd'.split(' '))
+// })
+
+// app.get('/',(req,res)=> {
+//     res.json('Witaj strono testowa ddd dd'.split(' '))
+// })
+
+//przekierowania na inna strone
+
+// app.get('/',(req,res)=> {
+//     // res.location('https://google.com');
+//     res.sendStatus(302)
+// })
+
+//redirect lepsza metoda sama ustawia sendstatus
+
+// app.get('/',(req,res)=> {
+//     res.redirect('https://google.com');
+// })
+
+// przekierowanie do strony wyzej uzywamy w redirect dwie kropki
+
+// app.get('/home/about/company',(req,res)=> {
+//     res.redirect('..');
+ 
+// })
+
+//wraca na strone poprzedania
+// app.get('/go_back',(req,res)=> {
+//     res.redirect('back')
+// })
+
+//przekierowanie na inna sciezke 301 - zapamietuje potem trzeba all zrestowac zeby byl inne
+
+// app.get('/google',(req,res)=> {
+//     res.redirect('https://google.com',301);
+// })
+
+// -- PRZESYLANIE PLIKÓW
+// ---------------------------------
+
+// response.sendFile
+
+// app.get('/',(req,res)=> {
+//     res.send(`<html>
+//     <body>
+//     <img src='/logo'>
+//     </body>
+//     </html>`)
+// })
+
+// app.get('/logo',(req,res)=>{
+//     const fileName = path.join(__dirname,'static/logo.png');
+//     console.log(fileName)
+//     res.sendFile(fileName)
+// })
+
+
+//opcje w sendfile - root ( zabezpiecza przejscie do sciezek wyzej znajduje tylko w konkretnej )
+// app.get('/logo',(req,res)=>{
+//     const fileName = 'logo.png';
+//     console.log(fileName)
+//     res.sendFile(fileName,{
+//         root: path.join(__dirname,'static')
+//     })
+// })
+
+// //pobieranie automatyczne -attachment
+
+// app.get('/logo',(req,res)=>{
+//     const fileName = 'logo.png';
+   
+//     res.attachment(fileName,{
+//         root: path.join(__dirname,'static')
+//     })
+//     res.end(); //musi byc przy tym attachment
+// })
+
+// //pobieranie res.download
+
+// app.get('/logo',(req,res)=>{
+    
+//     const fileName = path.join(__dirname,'static/logo.png');
+   
+//     res.download(fileName,'moj plik')
+// })
+
+///ustawienie ciastka - sesyjne ciasto
+// app.get('/',(req,res)=> {
+//     res.cookie('permission','5');
+// });
+
+// app.get('/:username', (req,res) => {
+//     const name = req.params.username;
+//     const dt = new Date();
+//     dt.setDate(dt.getDate() + 7); //zapisane ciastko na 7 dni
+//     res.cookie('name',`${name}`,{
+//         expires: dt,
+//         // httpOnly:true front end nie ma dostepu jak na true /autoryzacje itp
+//     })
+//     console.log(name)
+//     // res.end()
+//     res.send('Imie zapisano')
+// })
+
+// //res.clearCookie()
+
+// app.get('/logout',(req,res) => {
+//     res.clearCookie('name');
+//     res.send('wylogowano')
+// })
+
+//ustawianie naglowkow res.set('Content-Type','text/plain')
+
+// MIDDLEWARY - app.use(jakimiddleware()) - przeksztalcanie czegos w cos
+//Middleware - do jsona, rozkodowuje czyste dane jsonowe
+//middleware konfigurujemy przed sciezkami / app.use(express.json())
+
+app.use(express.json())
+app.use(express.static(
+    path.join(__dirname,'static')
+))
+app.use(cookieParser())
+
+app.post('/hello',(req,res) => {
+    const {name,surname} = req.body;
+    res.send('Twoje imie to ')
+})
+
+//npm cookie-parser res.cookies - mamy co jest w cookie
+
+
+//struktura aplikacji 
+// --|app
+// --|public 
+// ---|index/images/javascript/png/StyleSheet
+// --|routes
+
+
+//MONGODB
+
+// dodawanie jedengo elementu : db.cars.insertOne({brand: 'Audi',model:'a4'})
+//znajdywanie wszystkich db.cars.find()
+//dodowanie paru elementów db.cars.insertMany([{brand:'Golf',model:'6'},{brand:'Suzuki',model:'Vitara'}])
+//szukanie konkretnej rzeczy : db.clients.find({active:true})
+//szukanie po id db.clients.find({_id:ObjectId('610987825ec9dc0c034926e2')})
+//kryteria wieksze niz 30 gt db.clients.find({age:{$gt:30}})
+//kryteria mniejsze niz 30  db.clients.find({age:{$lt:30}})
+//klika kryteriow wieksze niz 30 mniejsze niz 40 db.clients.find({age:{$gt:30,$lt:40}})
+//mniejsze badz rowne db.clients.find({age:{$lte:25}})
+//wieksze badz rowne db.clients.find({age:{$gte:25}})
+//znajdz posrod tych liczb w arrayce db.clients.find({age:{$in:[25,100,300]}}) - in 
+//znajdz oprocz tych w arrayce db.clients.find({age:{$nin:[25,100,300]}}) - not in
+// ze spojnikiem or --> db.clients.find({$or:[{age:{$gt:25}},{active:false}]}) w nawiasach rozne rzeczy ktore chcemy filtrowac
+// noot / nie wiecej niz 30 db.clients.find({age:{$not:{$gt:30}}})
+
+//aktualizacja, $set zeby nie podmienic wszystkiego tylko konkretny
+// update jak nie podamy id aktualizuje pierwszy znaleziony element
+//ustawienie :  db.clients.update({_id:ObjectId('610987825ec9dc0c034926e2')},{$set:{test:'covid'}}) , db.clients.update({_id:ObjectId('610987825ec9dc0c034926e2')},{$set:{active:false}})
+//aktualizacja wszystkich osob multi :  db.clients.update({},{$set:{active:false}},{multi:true})
+//aktualizacja z warunkiem ze ponizej 30 zmien na true pierwszy  db.clients.update({age:{$lt:30}},{$set:{active:true}})
+//aktualizacja z warunkiem ze ponizej 30 zmien na true wszystkie znalezione bo multi  db.clients.update({age:{$lt:30}},{$set:{active:true}},{multi:true})
+// updateOne - update jeden 
+//updateMulti - update wszystkie
+
+//USUWANIE
+// db.clients.deleteOne({_id:ObjectID()});
+//db.clients.deleteMany({})
+
+/////////
+// INTEGRACJA Z NODE
+//NPM ININIT 
+// NPM INSTALL MONGODB
